@@ -13,15 +13,15 @@ export const getUserDocument = query({
       if (!userDocument) {
         return {
           success: false,
-          message: `User ${args.clerkUserId}not in convex database.`,
-        };
-      } else {
-        return {
-          success: false,
-          userDocument: userDocument,
-          message: `Successfully found user ${args.clerkUserId}.`,
+          message: `Could not find user ${args.clerkUserId}.`,
         };
       }
+
+      return {
+        success: true,
+        userDocument: userDocument,
+        message: `Successfully found user ${args.clerkUserId}.`,
+      };
     } catch (error) {
       return {
         success: false,
