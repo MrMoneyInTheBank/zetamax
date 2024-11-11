@@ -8,8 +8,19 @@ export const addUserScore = mutation({
     newScore: v.number(),
   },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.userDocumentId, {
-      scores: [...args.userScores, args.newScore],
-    });
+    try {
+      await ctx.db.patch(args.userDocumentId, {
+        scores: [...args.userScores, args.newScore],
+      });
+      return {
+        success: true,
+        message: `Added score for ${args.userDocumentId}.`,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: `Could not update score for ${args.userDocumentId}: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
   },
 });
