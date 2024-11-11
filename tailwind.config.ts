@@ -9,8 +9,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#6b42b7",
+        "primary-content": "#fcfbfd",
+        "primary-dark": "#6504bf",
+        "primary-light": "#8765c7",
+
+        secondary: "#b742a1",
+        "secondary-content": "#fdfbfd",
+        "secondary-dark": "#913480",
+        "secondary-light": "#c765b5",
+
+        background: "#171122",
+        foreground: "#221934",
+        border: "#392956",
+
+        copy: "#fbfafd",
+        "copy-light": "#d5cbe6",
+        "copy-lighter": "#9c87c5",
+
+        success: "#42b742",
+        warning: "#b7b742",
+        error: "#b74242",
+
+        "success-content": "#000000",
+        "warning-content": "#000000",
+        "error-content": "#fdfbfb",
       },
     },
   },
