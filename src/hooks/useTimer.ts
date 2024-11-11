@@ -9,10 +9,12 @@ interface TimerControls {
   reset: () => void;
   setTime: (time: number) => void;
 }
+
 export function useTimer(initialTime: number): TimerControls {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [originalTime] = useState<number>(initialTime);
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isRunning && timeLeft > 0) {
@@ -32,6 +34,7 @@ export function useTimer(initialTime: number): TimerControls {
       }
     };
   }, [isRunning, timeLeft]);
+
   const start = useCallback(() => {
     if (timeLeft > 0) {
       setIsRunning(true);
