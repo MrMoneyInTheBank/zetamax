@@ -7,8 +7,8 @@ export const getUserScores = query({
     const scores = await ctx.db
       .query("Users")
       .filter((q) => q.eq(q.field("clerkUserId"), args.clerkUserId))
-      .collect();
+      .first();
 
-    return scores;
+    return scores?.scores;
   },
 });
