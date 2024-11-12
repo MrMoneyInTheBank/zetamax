@@ -14,11 +14,16 @@ export function useGameState() {
     setUserInput("");
   }, []);
 
+  const resetScore = useCallback(() => {
+    setScore(0);
+  }, []);
+
   return {
     score,
     userInput,
     setUserInput,
     incrementScore,
     resetInput,
+    resetScore,
   };
 }
