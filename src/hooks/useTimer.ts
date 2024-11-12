@@ -1,16 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-interface TimerControls {
-  timeLeft: number;
-  isRunning: boolean;
-  start: () => void;
-  pause: () => void;
-  reset: () => void;
-  setTime: (time: number) => void;
-}
 
-export function useTimer(initialTime: number): TimerControls {
+export function useTimer(initialTime: number) {
   const [timeLeft, setTimeLeft] = useState<number>(initialTime);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [originalTime] = useState<number>(initialTime);
@@ -44,9 +36,10 @@ export function useTimer(initialTime: number): TimerControls {
     setIsRunning(false);
   }, []);
   const reset = useCallback(() => {
-    setIsRunning(false);
+    setIsRunning(true);
     setTimeLeft(originalTime);
   }, [originalTime]);
+
   const setTime = useCallback((time: number) => {
     setIsRunning(false);
     setTimeLeft(time);
