@@ -57,7 +57,7 @@ export const GamePanel = () => {
   }, [played, isRunning]);
 
   const welcomeText = "Play Zetamax";
-  const resultText = `Game Over! Score: ${score}`;
+  const resultText = `Score: ${score}`;
   const bannerText = played ? resultText : welcomeText;
 
   return (
