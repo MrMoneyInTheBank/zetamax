@@ -3,7 +3,7 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
 
-const ClerkPortal = () => {
+export const ClerkPortal = () => {
   return (
     <div className="fixed right-4 top-4 z-30">
       <SignedIn>
@@ -27,5 +27,3 @@ const CustomSignInButton = () => {
     </SignInButton>
   );
 };
-
-export default ClerkPortal;
