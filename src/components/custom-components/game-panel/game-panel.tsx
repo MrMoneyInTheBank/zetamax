@@ -83,8 +83,8 @@ export const GamePanel = () => {
               <span>Duration: </span>
               <input
                 type="text"
-                className="w-20 bg-white/10 border-2 border-white/20 rounded-lg px-2 py-1 text-xl text-center text-white focus:outline-none focus:border-indigo-400 transition-colors"
-                placeholder=""
+                className="w-full bg-white/10 border-2 border-white/20 rounded-lg px-2 py-1 text-xl text-center text-white focus:outline-none focus:border-indigo-400 transition-colors"
+                placeholder={`${duration} seconds`}
                 onChange={handleDurationChange}
               />
             </div>
