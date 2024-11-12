@@ -1,14 +1,13 @@
 "use server";
 
-import { UserResource } from "@clerk/types/dist";
 import { fetchQuery, fetchMutation } from "convex/nextjs";
 import { api } from "../../convex/_generated/api";
 
 export async function addUserScore(
-  user: UserResource | null | undefined,
+  userId: string | undefined,
   newScore: number,
 ) {
-  if (!user) {
+  if (!userId) {
     return {
       success: false,
       message: "Create an account to save your scores.",
@@ -21,7 +20,7 @@ export async function addUserScore(
       userDocument,
       message: queryMessage,
     } = await fetchQuery(api.getUserDocument.getUserDocument, {
-      clerkUserId: user.id,
+      clerkUserId: userId,
     });
 
     if (!querySuccess || !userDocument) {

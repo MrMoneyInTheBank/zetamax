@@ -32,7 +32,7 @@ export const GamePanel = () => {
         success: saveSuccess,
         message: saveMessage,
         description: saveDescription,
-      } = await addUserScore(user, score);
+      } = await addUserScore(user?.id, score);
 
       if (!saveSuccess) {
         toast({
