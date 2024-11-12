@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useContext } from "react";
 import { useZetamax } from "@/hooks/useZetamax";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
 import { Timer, Medal, Play } from "lucide-react";
+import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
 
 export const GamePanel = () => {
   const { toast } = useToast();
   const { user } = useUser();
+  const userId = useContext(UserContext);
   const [played, setPlayed] = useState(false);
   const [duration, setDuration] = useState(120);
 
@@ -43,7 +45,7 @@ export const GamePanel = () => {
         success: saveSuccess,
         message: saveMessage,
         description: saveDescription,
-      } = await addUserScore(user?.id, score);
+      } = await addUserScore(userId, score);
 
       if (!saveSuccess) {
         toast({
