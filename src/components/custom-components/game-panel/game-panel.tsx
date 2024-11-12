@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useZetamax } from "@/hooks/useZetamax";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@clerk/nextjs";
@@ -8,6 +8,11 @@ import { Timer, Medal, Play } from "lucide-react";
 import { addUserScore } from "@/lib/addUserScore";
 
 export const GamePanel = () => {
+  const { toast } = useToast();
+  const { user } = useUser();
+  const [played, setPlayed] = useState(false);
+  const [duration, setDuration] = useState(120);
+
   const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newDuration = parseInt(e.target.value);
     if (!isNaN(newDuration) && newDuration > 0) {
@@ -25,10 +30,6 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(10);
-  const [played, setPlayed] = useState(false);
-  const { toast } = useToast();
-  const { user } = useUser();
   } = useZetamax(duration);
 
   const handleClick = () => {
