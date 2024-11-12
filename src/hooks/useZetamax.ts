@@ -5,7 +5,7 @@ import { useGameState } from "./useGameState";
 import { useQuestion } from "./useQuestion";
 import { useTimer } from "./useTimer";
 
-export function useZetamax(gameDuration = 60) {
+export function useZetamax(gameDuration: number) {
   const timer = useTimer(gameDuration);
   const questionState = useQuestion();
   const gameState = useGameState();

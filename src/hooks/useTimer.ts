@@ -3,9 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 
 export function useTimer(initialTime: number) {
-  const [timeLeft, setTimeLeft] = useState<number>(initialTime);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [originalTime] = useState<number>(initialTime);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    setTimeLeft(initialTime);
+  }, [initialTime]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -32,18 +35,21 @@ export function useTimer(initialTime: number) {
       setIsRunning(true);
     }
   }, [timeLeft]);
+
   const pause = useCallback(() => {
     setIsRunning(false);
   }, []);
+
   const reset = useCallback(() => {
     setIsRunning(true);
-    setTimeLeft(originalTime);
-  }, [originalTime]);
+    setTimeLeft(initialTime);
+  }, [initialTime]);
 
   const setTime = useCallback((time: number) => {
     setIsRunning(false);
     setTimeLeft(time);
   }, []);
+
   return {
     timeLeft,
     isRunning,
