@@ -1,26 +1,68 @@
 "use client";
+
 import { useCallback, useState } from "react";
 
-const OPERATIONS: Record<string, (x: number, y: number) => number> = {
-  "+": (x, y) => x + y,
-  "-": (x, y) => x - y,
-  "*": (x, y) => x * y,
-  "/": (x, y) => {
-    if (y === 0) {
-      throw new Error("Division by zero");
-    }
-    return x / y;
+type Range = {
+  min: number;
+  max: number;
+};
+
+const RANGES = {
+  addition: { operand1: { min: 2, max: 100 }, operand2: { min: 2, max: 100 } },
+  multiplication: {
+    operand1: { min: 2, max: 12 },
+    operand2: { min: 2, max: 100 },
+  },
+};
+
+const generateNumberInRange = (range: Range) =>
+  Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
+
+const OPERATIONS: Record<
+  string,
+  {
+    fn: (x: number, y: number) => number;
+    getOperands: () => { num1: number; num2: number };
+  }
+> = {
+  "+": {
+    fn: (x, y) => x + y,
+    getOperands: () => ({
+      num1: generateNumberInRange(RANGES.addition.operand1),
+      num2: generateNumberInRange(RANGES.addition.operand2),
+    }),
+  },
+  "-": {
+    fn: (x, y) => x - y,
+    getOperands: () => {
+      const num1 = generateNumberInRange(RANGES.addition.operand1);
+      const num2 = generateNumberInRange(RANGES.addition.operand2);
+      return { num1: num1 + num2, num2: num2 };
+    },
+  },
+  "*": {
+    fn: (x, y) => x * y,
+    getOperands: () => ({
+      num1: generateNumberInRange(RANGES.multiplication.operand1),
+      num2: generateNumberInRange(RANGES.multiplication.operand2),
+    }),
+  },
+  "/": {
+    fn: (x, y) => x / y,
+    getOperands: () => {
+      const num1 = generateNumberInRange(RANGES.multiplication.operand1);
+      const num2 = generateNumberInRange(RANGES.multiplication.operand2);
+      return { num1: num1 * num2, num2: num1 };
+    },
   },
 };
 
 export function useQuestion() {
   const generateQuestion = useCallback(() => {
-    const num1 = Math.floor(Math.random() * 99) + 1;
-    const num2 = Math.floor(Math.random() * 99) + 1;
     const ops = ["+", "-", "*", "/"];
     const operation = ops[Math.floor(Math.random() * ops.length)];
-
-    const answer = OPERATIONS[operation](num1, num2);
+    const { num1, num2 } = OPERATIONS[operation].getOperands();
+    const answer = OPERATIONS[operation].fn(num1, num2);
     return { num1, num2, operation, answer };
   }, []);
 
