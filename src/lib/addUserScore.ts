@@ -3,18 +3,14 @@
 import { fetchQuery, fetchMutation } from "convex/nextjs";
 import { api } from "../../convex/_generated/api";
 
-export async function addUserScore(
-  userId: string | undefined,
-  newScore: number,
-) {
-  if (!userId) {
+export async function addUserScore(userId: string, newScore: number) {
+  if (!userId || userId === "") {
     return {
       success: false,
       message: "Create an account to save your scores.",
       description: "Click on the top right corner to create an account.",
     };
   } else {
-    // patch db
     const {
       success: querySuccess,
       userDocument,
