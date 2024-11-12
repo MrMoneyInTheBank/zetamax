@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { clerkAppearance } from "@/utils/clerk/appearance";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${inter.className} bg-secondary-dark`}>
           <ConvexClientProvider>{children}</ConvexClientProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
