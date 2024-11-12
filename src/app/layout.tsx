@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={clerkAppearance} afterSignOutUrl={"/"}>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`${inter.className} bg-secondary-dark`}>
           <ConvexClientProvider>{children}</ConvexClientProvider>
         </body>
       </html>
