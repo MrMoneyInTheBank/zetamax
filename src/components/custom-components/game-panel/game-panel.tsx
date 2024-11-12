@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useZetamax } from "@/hooks/useZetamax";
+import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@clerk/nextjs";
 import { Timer, Medal, Play } from "lucide-react";
+import { addUserScore } from "@/lib/addUserScore";
 
 export const GamePanel = () => {
   const {
@@ -15,11 +18,43 @@ export const GamePanel = () => {
     restart,
   } = useZetamax(10);
   const [played, setPlayed] = useState(false);
+  const { toast } = useToast();
+  const { user } = useUser();
 
   const handleClick = () => {
     restart();
     setPlayed(true);
   };
+
+  const handleGameEnd = async () => {
+    if (played && !isRunning) {
+      const {
+        success: saveSuccess,
+        message: saveMessage,
+        description: saveDescription,
+      } = await addUserScore(user, score);
+
+      if (!saveSuccess) {
+        toast({
+          title: saveMessage,
+          description: saveDescription,
+          className:
+            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
+        });
+      } else {
+        toast({
+          title: "Previous score saved!",
+          description: saveDescription,
+          className:
+            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleGameEnd();
+  }, [played, isRunning]);
 
   const welcomeText = "Play Zetamax";
   const resultText = `Game Over! Score: ${score}`;
