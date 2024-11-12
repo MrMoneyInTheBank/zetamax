@@ -8,6 +8,15 @@ import { Timer, Medal, Play } from "lucide-react";
 import { addUserScore } from "@/lib/addUserScore";
 
 export const GamePanel = () => {
+  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newDuration = parseInt(e.target.value);
+    if (!isNaN(newDuration) && newDuration > 0) {
+      setDuration(newDuration);
+    } else if (e.target.value === "") {
+      setDuration(120);
+    }
+  };
+
   const {
     timeLeft,
     isRunning,
@@ -20,6 +29,7 @@ export const GamePanel = () => {
   const [played, setPlayed] = useState(false);
   const { toast } = useToast();
   const { user } = useUser();
+  } = useZetamax(duration);
 
   const handleClick = () => {
     restart();
@@ -68,6 +78,15 @@ export const GamePanel = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
+            <div className="flex items-center space-x-4 text-xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
+              <span>Duration: </span>
+              <input
+                type="text"
+                className="w-20 bg-white/10 border-2 border-white/20 rounded-lg px-2 py-1 text-xl text-center text-white focus:outline-none focus:border-indigo-400 transition-colors"
+                placeholder=""
+                onChange={handleDurationChange}
+              />
+            </div>
             <button
               onClick={handleClick}
               className="group relative px-8 py-3 w-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg text-white font-semibold text-lg transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900"
