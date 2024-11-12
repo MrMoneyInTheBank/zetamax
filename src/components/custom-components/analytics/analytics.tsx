@@ -120,10 +120,7 @@ export default function Analytics() {
                     color: "#fff",
                   }}
                   labelStyle={{ color: "#aaa" }}
-                  formatter={(value, name) => [
-                    `Score: ${value}`,
-                    `Quiz ${name}`,
-                  ]}
+                  formatter={(value) => [`Score: ${value}`]}
                   labelFormatter={(label) => `Quiz ${label}`}
                 />
                 <Line
