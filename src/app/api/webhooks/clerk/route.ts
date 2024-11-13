@@ -28,5 +28,7 @@ export async function POST(req: NextRequest) {
     await handleWebhook({ webhookEvent: event });
 
   const responseCode = webhookSuccess ? 200 : 400;
+  console.log("Webhook message:", webhookMessage);
+  console.log("Response code:", responseCode);
   return new NextResponse(webhookMessage, { status: responseCode });
 }
