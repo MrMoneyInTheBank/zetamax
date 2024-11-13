@@ -34,7 +34,7 @@ async function parseRequest({ req }: { req: NextRequest }): Promise<{
   } catch (error) {
     return {
       success: false,
-      message: "Could not parse request body for clerk webhook event",
+      message: `${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }
@@ -93,7 +93,7 @@ export default async function verifyClerkWebhook({
   } catch (error) {
     return {
       success: false,
-      message: "Could not verify Clerk webhook event",
+      message: `${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }
