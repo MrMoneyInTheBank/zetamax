@@ -17,10 +17,11 @@ import {
   CardDescription,
   CardTitle,
 } from "@/components/ui/card";
-import { Trophy, Target, TrendingDown } from "lucide-react";
+import { Trophy, Target, TrendingDown, Trash } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { deleteUserScore } from "@/lib/deleteUserScore";
 
 export default function Analytics() {
   const userId = useContext(UserContext);
@@ -55,7 +56,7 @@ export default function Analytics() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-4 gap-4 mb-6">
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Highest Score</p>
@@ -79,6 +80,12 @@ export default function Analytics() {
               </div>
               <TrendingDown className="text-red-400" size={24} />
             </div>
+            <button
+              className="bg-white/20 opacity-50 rounded-lg p-4 flex items-center justify-center hover:opacity-100 transition-opacity"
+              onClick={() => deleteUserScore(userId)}
+            >
+              <Trash className="text-red-400" size={24} />
+            </button>
           </div>
 
           <div className="h-[320px]">
