@@ -18,20 +18,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Trophy, Target, TrendingDown } from "lucide-react";
-
-// Dummy data to simulate fetched scores for a single user
-const initialUserScores = [
-  { quizNumber: 1, score: 42 },
-  { quizNumber: 2, score: 38 },
-  { quizNumber: 3, score: 45 },
-  { quizNumber: 4, score: 40 },
-  { quizNumber: 5, score: 36 },
-];
 import { UserContext } from "@/contexts/userContext";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 
 export default function Analytics() {
-  const [userScores, setUserScores] = useState(initialUserScores);
   const userId = useContext(UserContext);
+  const { scores: userScores = [] } =
+    useQuery(api.getUserScores.getUserScores, {
+      clerkUserId: userId,
+    }) ?? {};
   const [highestScore, setHighestScore] = useState(0);
   const [meanScore, setMeanScore] = useState(0);
   const [lowestScore, setLowestScore] = useState(0);
@@ -41,7 +37,7 @@ export default function Analytics() {
   }, [userScores]);
 
   const calculateStats = () => {
-    const scores = userScores.map((quiz) => quiz.score);
+    const scores = userScores!.map((score) => score);
     setHighestScore(Math.max(...scores));
     setMeanScore(scores.reduce((a, b) => a + b, 0) / scores.length);
     setLowestScore(Math.min(...scores));
@@ -96,7 +92,7 @@ export default function Analytics() {
                   stroke="rgba(255,255,255,0.1)"
                 />
                 <XAxis
-                  dataKey="quizNumber"
+                  dataKey="index"
                   stroke="rgba(255,255,255,0.5)"
                   label={{
                     value: "Quiz Number",
@@ -127,7 +123,7 @@ export default function Analytics() {
                 />
                 <Line
                   type="monotone"
-                  dataKey="score"
+                  dataKey={(data) => data}
                   stroke="#8884d8"
                   strokeWidth={2}
                   dot={{ fill: "#8884d8", strokeWidth: 2 }}
