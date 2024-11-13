@@ -20,7 +20,7 @@ export default async function constructClerkWebhook(): Promise<CreateClerkWebhoo
   } catch (error) {
     return {
       success: false,
-      message: "Could not construct Clerk webhook event. Check webhook keys.",
+      message: `Could not construct Clerk webhook event. Check webhook keys. ${error}`,
     };
   }
 }
