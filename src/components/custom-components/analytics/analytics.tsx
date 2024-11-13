@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Line,
   LineChart,
@@ -27,9 +27,11 @@ const initialUserScores = [
   { quizNumber: 4, score: 40 },
   { quizNumber: 5, score: 36 },
 ];
+import { UserContext } from "@/contexts/userContext";
 
 export default function Analytics() {
   const [userScores, setUserScores] = useState(initialUserScores);
+  const userId = useContext(UserContext);
   const [highestScore, setHighestScore] = useState(0);
   const [meanScore, setMeanScore] = useState(0);
   const [lowestScore, setLowestScore] = useState(0);
