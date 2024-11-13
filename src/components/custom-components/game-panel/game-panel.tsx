@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ChangeEvent, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useZetamax } from "@/hooks/useZetamax";
 import { useToast } from "@/hooks/use-toast";
 import { Timer, Medal, Play } from "lucide-react";
@@ -11,16 +11,6 @@ export const GamePanel = () => {
   const { toast } = useToast();
   const userId = useContext(UserContext);
   const [played, setPlayed] = useState(false);
-  const [duration, setDuration] = useState(120);
-
-  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newDuration = parseInt(e.target.value);
-    if (!isNaN(newDuration) && newDuration > 0) {
-      setDuration(newDuration);
-    } else if (e.target.value === "") {
-      setDuration(120);
-    }
-  };
 
   const {
     timeLeft,
@@ -30,7 +20,7 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(duration);
+  } = useZetamax(120);
 
   const handleClick = () => {
     restart();
@@ -79,15 +69,6 @@ export const GamePanel = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
-            <div className="flex items-center space-x-4 text-xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
-              <span>Duration: </span>
-              <input
-                type="text"
-                className="w-full bg-white/10 border-2 border-white/20 rounded-lg px-2 py-1 text-xl text-center text-white focus:outline-none focus:border-indigo-400 transition-colors"
-                placeholder={`${duration} seconds`}
-                onChange={handleDurationChange}
-              />
-            </div>
             <button
               onClick={handleClick}
               className="group relative px-8 py-3 w-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg text-white font-semibold text-lg transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900"
