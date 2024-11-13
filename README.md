@@ -1,7 +1,4 @@
-Based on the project structure and code snippets provided, I'll create a comprehensive README. I'll combine and refine the existing README content while adding more relevant details.
-
-```markdown
-# ZetaMax
+# Zetamax
 
 ZetaMax is an interactive mathematics game built with modern web technologies, designed to help users practice and improve their mathematical skills in an engaging way.
 
