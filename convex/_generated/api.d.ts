@@ -16,6 +16,7 @@ import type {
 import type * as addUserScore from "../addUserScore.js";
 import type * as createUser from "../createUser.js";
 import type * as deleteUser from "../deleteUser.js";
+import type * as deleteUserScores from "../deleteUserScores.js";
 import type * as getEverything from "../getEverything.js";
 import type * as getUserDocument from "../getUserDocument.js";
 import type * as getUserScores from "../getUserScores.js";
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   addUserScore: typeof addUserScore;
   createUser: typeof createUser;
   deleteUser: typeof deleteUser;
+  deleteUserScores: typeof deleteUserScores;
   getEverything: typeof getEverything;
   getUserDocument: typeof getUserDocument;
   getUserScores: typeof getUserScores;
