@@ -13,6 +13,7 @@ export const getUserScores = query({
       if (!scores) {
         return {
           success: false,
+          scores: [],
           message: `Could not find scores for user ${args.clerkUserId}`,
         };
       } else {
@@ -25,6 +26,7 @@ export const getUserScores = query({
     } catch (error) {
       return {
         success: false,
+        scores: [],
         message: `Could not fetch scores for ${args.clerkUserId}: ${error instanceof Error ? error.message : String(error)}`,
       };
     }
