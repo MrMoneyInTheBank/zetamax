@@ -23,6 +23,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
 import { useLocalScores } from "@/hooks/useLocalScores";
+import { useUserAuthChange } from "@/hooks/useUserAuthChange";
 
 export default function Analytics() {
   const userId = useContext(UserContext);
@@ -34,6 +35,8 @@ export default function Analytics() {
   );
 
   const userScores = scoreQueryResult?.scores ?? localScores;
+
+  useUserAuthChange(userId);
 
   const [highestScore, setHighestScore] = useState(0);
   const [meanScore, setMeanScore] = useState(0);
