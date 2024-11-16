@@ -22,13 +22,19 @@ import { UserContext } from "@/contexts/userContext";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
+import { useLocalScores } from "@/hooks/useLocalScores";
 
 export default function Analytics() {
   const userId = useContext(UserContext);
-  const { scores: userScores = [] } =
-    useQuery(api.getUserScores.getUserScores, {
-      clerkUserId: userId,
-    }) ?? {};
+  const { localScores } = useLocalScores();
+
+  const scoreQueryResult = useQuery(
+    api.getUserScores.getUserScores,
+    userId ? { clerkUserId: userId } : "skip",
+  );
+
+  const userScores = scoreQueryResult?.scores ?? localScores;
+
   const [highestScore, setHighestScore] = useState(0);
   const [meanScore, setMeanScore] = useState(0);
   const [lowestScore, setLowestScore] = useState(0);

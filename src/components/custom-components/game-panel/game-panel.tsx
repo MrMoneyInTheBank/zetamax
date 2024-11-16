@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
-import { useZetamax } from "@/hooks/useZetamax";
 import { useToast } from "@/hooks/use-toast";
+import { useLocalScores } from "@/hooks/useLocalScores";
+import { useZetamax } from "@/hooks/useZetamax";
 import { Timer, Medal, Play } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
@@ -11,6 +12,7 @@ export const GamePanel = () => {
   const { toast } = useToast();
   const userId = useContext(UserContext);
   const [played, setPlayed] = useState(false);
+  const { setLocalScores } = useLocalScores();
 
   const {
     timeLeft,
@@ -42,7 +44,8 @@ export const GamePanel = () => {
           className:
             "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
         });
-        addUserScoreToLS(score);
+
+        setLocalScores((prev) => [...prev, score]);
       } else {
         toast({
           title: "Previous score saved!",
