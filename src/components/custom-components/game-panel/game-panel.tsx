@@ -42,6 +42,7 @@ export const GamePanel = () => {
           className:
             "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
         });
+        addUserScoreToLS(score);
       } else {
         toast({
           title: "Previous score saved!",
