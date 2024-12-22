@@ -42,3 +42,6 @@ yarn-error.log*
 next-env.d.ts
 
 convex/getEverything.ts
+
+# dev stuff
+/misc
