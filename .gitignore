@@ -45,3 +45,4 @@ convex/getEverything.ts
 
 # dev stuff
 /misc
+/misc/*
