@@ -23,11 +23,12 @@ export async function migrateUserScores(userId: string, localScores: number[]) {
   const userDocumentId = userDocument._id;
   const userScores = userDocument.scores;
 
+  const combinedScores = [...userScores, ...localScores];
+
   const { success: mutationSuccess, message: mutationMessage } =
     await fetchMutation(api.migrateUserScores.migrateUserScores, {
       userDocumentId: userDocumentId,
-      userScores: userScores,
-      localScores: localScores,
+      newUserScores: combinedScores,
     });
 
   return {
