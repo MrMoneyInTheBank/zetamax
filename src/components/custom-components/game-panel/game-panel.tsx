@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
 import { Timer, Medal, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
 
@@ -14,6 +15,11 @@ export const GamePanel = () => {
   const [played, setPlayed] = useState(false);
   const { setLocalScores } = useLocalScores();
 
+  const [duration, setDuration] = useState(120);
+  const handleDurationChange = (newDuration: number) => {
+    setDuration(newDuration);
+  };
+
   const {
     timeLeft,
     isRunning,
@@ -22,7 +28,7 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(120);
+  } = useZetamax(duration);
 
   const handleClick = () => {
     restart();
@@ -73,6 +79,31 @@ export const GamePanel = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
+            <div className="flex justify-center items-center space-x-4">
+              <Timer className="text-indigo-200" size={30} />
+              <Button
+                variant={duration === 30 ? "default" : "outline"}
+                onClick={() => handleDurationChange(30)}
+                className={`w-20 ${duration === 30 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
+              >
+                30s
+              </Button>
+              <Button
+                variant={duration === 60 ? "default" : "outline"}
+                onClick={() => handleDurationChange(60)}
+                className={`w-20 ${duration === 60 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
+              >
+                60s
+              </Button>
+              <Button
+                variant={duration === 120 ? "default" : "outline"}
+                onClick={() => handleDurationChange(120)}
+                className={`w-20 ${duration === 120 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
+              >
+                120s
+              </Button>
+              <Timer className="text-indigo-200 invisible" size={30} />
+            </div>
             <button
               onClick={handleClick}
               className="group relative px-8 py-3 w-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg text-white font-semibold text-lg transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900"
