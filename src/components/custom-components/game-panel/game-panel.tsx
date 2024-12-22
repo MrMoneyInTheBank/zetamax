@@ -37,11 +37,12 @@ export const GamePanel = () => {
 
   const handleGameEnd = async () => {
     if (played && !isRunning) {
+      const scaledScore = (score / duration) * 120;
       const {
         success: saveSuccess,
         message: saveMessage,
         description: saveDescription,
-      } = await addUserScore(userId, score);
+      } = await addUserScore(userId, scaledScore);
 
       if (!saveSuccess) {
         toast({
@@ -51,7 +52,7 @@ export const GamePanel = () => {
             "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
         });
 
-        setLocalScores((prev) => [...prev, score]);
+        setLocalScores((prev) => [...prev, scaledScore]);
       } else {
         toast({
           title: "Previous score saved!",
