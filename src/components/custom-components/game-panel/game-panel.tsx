@@ -14,6 +14,11 @@ export const GamePanel = () => {
   const [played, setPlayed] = useState(false);
   const { setLocalScores } = useLocalScores();
 
+  const [duration, setDuration] = useState(120);
+  const handleDurationChange = (newDuration: number) => {
+    setDuration(newDuration);
+  };
+
   const {
     timeLeft,
     isRunning,
@@ -22,7 +27,7 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(120);
+  } = useZetamax(duration);
 
   const handleClick = () => {
     restart();
