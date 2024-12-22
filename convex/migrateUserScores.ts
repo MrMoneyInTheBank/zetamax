@@ -10,7 +10,8 @@ export const migrateUserScores = mutation({
   handler: async (ctx, args) => {
     try {
       await ctx.db.patch(args.userDocumentId, {
-        scores: [...args.userScores, ...args.localScores],
+        // scores: [...args.userScores, ...args.localScores],
+        scores: args.userScores.concat(args.localScores),
       });
 
       return {
