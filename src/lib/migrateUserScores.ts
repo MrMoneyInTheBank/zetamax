@@ -5,10 +5,8 @@ import { api } from "../../convex/_generated/api";
 
 export async function migrateUserScores(userId: string, localScores: number[]) {
   if (!userId || localScores.length == 0) {
-    return { success: true, message: "write a better message here" };
+    return { success: true, message: "No data to migrate" };
   }
-
-  console.log(`hello, i am migrating these scores ${localScores}`);
 
   const {
     success: querySuccess,
