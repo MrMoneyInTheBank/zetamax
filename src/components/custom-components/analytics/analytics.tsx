@@ -73,7 +73,7 @@ export default function Analytics() {
             Your Zetamax Progress
           </CardTitle>
           <CardDescription className="text-indigo-200">
-            Performance overview across quizzes
+            Scaled performance overview across quizzes
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -103,7 +103,10 @@ export default function Analytics() {
             </div>
             <button
               className="bg-white/20 opacity-50 rounded-lg p-4 flex items-center justify-center hover:opacity-100 transition-opacity"
-              onClick={() => deleteUserScore(userId)}
+              onClick={() => {
+                deleteUserScore(userId);
+                setLocalScores([]);
+              }}
             >
               <Trash className="text-red-400" size={24} />
             </button>
