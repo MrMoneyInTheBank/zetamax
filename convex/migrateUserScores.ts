@@ -4,14 +4,13 @@ import { v } from "convex/values";
 export const migrateUserScores = mutation({
   args: {
     userDocumentId: v.id("Users"),
-    userScores: v.array(v.number()),
-    localScores: v.array(v.number()),
+    newUserScores: v.array(v.number()),
   },
   handler: async (ctx, args) => {
     try {
       await ctx.db.patch(args.userDocumentId, {
         // scores: [...args.userScores, ...args.localScores],
-        scores: args.userScores.concat(args.localScores),
+        scores: args.newUserScores,
       });
 
       return {
