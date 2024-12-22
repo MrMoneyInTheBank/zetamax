@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import {
   Line,
   LineChart,
@@ -22,27 +22,49 @@ import { UserContext } from "@/contexts/userContext";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
+import { useLocalScores } from "@/hooks/useLocalScores";
+// import { handleNewUser, useUserAuthChange } from "@/hooks/useUserAuthChange";
+import { handleUserAuthChange } from "@/lib/handleUserAuthChange";
 
 export default function Analytics() {
   const userId = useContext(UserContext);
-  const { scores: userScores = [] } =
-    useQuery(api.getUserScores.getUserScores, {
-      clerkUserId: userId,
-    }) ?? {};
-  const [highestScore, setHighestScore] = useState(0);
-  const [meanScore, setMeanScore] = useState(0);
-  const [lowestScore, setLowestScore] = useState(0);
+  const { localScores, setLocalScores } = useLocalScores();
+
+  const scoreQueryResult = useQuery(
+    api.getUserScores.getUserScores,
+    userId ? { clerkUserId: userId } : "skip",
+  );
+
+  const userScores = scoreQueryResult?.scores ?? localScores;
+
+  useEffect(() => {
+    handleUserAuthChange(userId, localScores, setLocalScores);
+  }, [userId]);
 
   useEffect(() => {
     calculateStats();
   }, [userScores]);
 
-  const calculateStats = () => {
-    const scores = userScores!.map((score) => score);
-    setHighestScore(Math.max(...scores));
-    setMeanScore(scores.reduce((a, b) => a + b, 0) / scores.length);
-    setLowestScore(Math.min(...scores));
-  };
+  const [stats, setStats] = useState({
+    highest: 0,
+    mean: 0,
+    lowest: 0,
+  });
+
+  const calculateStats = useCallback(() => {
+    if (!userScores?.length) return;
+
+    const scores = userScores.map((score) => score);
+    setStats({
+      highest: Math.max(...scores),
+      mean: scores.reduce((a, b) => a + b, 0) / scores.length,
+      lowest: Math.min(...scores),
+    });
+  }, [userScores]);
+
+  useEffect(() => {
+    calculateStats();
+  }, [calculateStats]);
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex flex-col items-center justify-center p-4">
@@ -60,7 +82,7 @@ export default function Analytics() {
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Highest Score</p>
-                <p className="text-2xl font-bold text-white">{highestScore}</p>
+                <p className="text-2xl font-bold text-white">{stats.highest}</p>
               </div>
               <Trophy className="text-yellow-400" size={24} />
             </div>
@@ -68,7 +90,7 @@ export default function Analytics() {
               <div>
                 <p className="text-sm text-indigo-200">Mean Score</p>
                 <p className="text-2xl font-bold text-white">
-                  {meanScore.toFixed(2)}
+                  {stats.mean.toFixed(2)}
                 </p>
               </div>
               <Target className="text-green-400" size={24} />
@@ -76,7 +98,7 @@ export default function Analytics() {
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Lowest Score</p>
-                <p className="text-2xl font-bold text-white">{lowestScore}</p>
+                <p className="text-2xl font-bold text-white">{stats.lowest}</p>
               </div>
               <TrendingDown className="text-red-400" size={24} />
             </div>
