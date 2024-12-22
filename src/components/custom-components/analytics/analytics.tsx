@@ -23,7 +23,6 @@ import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
 import { useLocalScores } from "@/hooks/useLocalScores";
-// import { handleNewUser, useUserAuthChange } from "@/hooks/useUserAuthChange";
 import { handleUserAuthChange } from "@/lib/handleUserAuthChange";
 
 export default function Analytics() {
