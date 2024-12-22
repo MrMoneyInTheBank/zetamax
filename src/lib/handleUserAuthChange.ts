@@ -7,12 +7,11 @@ export const handleUserAuthChange = async (
 ) => {
   if (userId === "" || localScores.length === 0) return;
   try {
-    const { success, message } = await migrateUserScores(userId, localScores);
-    if (success) {
-      setLocalScores([]);
-    }
+    const { message } = await migrateUserScores(userId, localScores);
     console.log(message);
   } catch (error) {
     console.log(error);
   }
+
+  setLocalScores([]);
 };
