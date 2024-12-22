@@ -5,7 +5,6 @@ export const handleUserAuthChange = async (
   localScores: number[],
   setLocalScores: (value: number[] | ((prev: number[]) => number[])) => void,
 ) => {
-  console.log("hello", userId, "these are your scores", localScores);
   if (userId === "" || localScores.length === 0) return;
   try {
     const { success, message } = await migrateUserScores(userId, localScores);
