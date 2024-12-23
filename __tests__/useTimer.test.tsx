@@ -68,4 +68,23 @@ describe("useTimer", () => {
     expect(result.current.timeLeft).toBe(5);
     expect(result.current.isRunning).toBe(true);
   });
+
+  it("should set a new time and stop the timer", () => {
+    const { result } = renderHook(() => useTimer(5));
+
+    act(() => {
+      result.current.start();
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    act(() => {
+      result.current.setTime(8);
+    });
+
+    expect(result.current.timeLeft).toBe(8);
+    expect(result.current.isRunning).toBe(false);
+  });
 });
