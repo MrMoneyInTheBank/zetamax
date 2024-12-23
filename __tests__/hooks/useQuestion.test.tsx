@@ -32,4 +32,24 @@ describe("useQuestion Hook", () => {
         throw new Error(`Unexpected operation: ${operation}`);
     }
   });
+
+  it("should update the question when nextQuestion is called", () => {
+    const { result } = renderHook(() => useQuestion());
+
+    const initialQuestion = result.current.question;
+
+    act(() => {
+      result.current.nextQuestion();
+    });
+
+    const updatedQuestion = result.current.question;
+
+    // Ensure the question was updated
+    expect(updatedQuestion).not.toEqual(initialQuestion);
+    expect(updatedQuestion).toHaveProperty("num1");
+    expect(updatedQuestion).toHaveProperty("num2");
+    expect(updatedQuestion).toHaveProperty("operation");
+    expect(updatedQuestion).toHaveProperty("answer");
+  });
+
 });
