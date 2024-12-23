@@ -25,4 +25,28 @@ describe("useTimer", () => {
 
     expect(result.current.timeLeft).toBe(2);
   });
+
+  it("should pause the timer", () => {
+    const { result } = renderHook(() => useTimer(5));
+
+    act(() => {
+      result.current.start();
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    act(() => {
+      result.current.pause();
+    });
+
+    expect(result.current.isRunning).toBe(false);
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(result.current.timeLeft).toBe(3);
+  });
 });
