@@ -19,4 +19,16 @@ describe("useLocalStorage", () => {
     const [storedValue] = result.current;
     expect(storedValue).toBe("initialValue");
   });
+
+  it("should initialize with the value from localStorage if it exists", () => {
+    localStorage.setItem(mockKey, JSON.stringify("storedValue"));
+
+    const { result } = renderHook(() =>
+      useLocalStorage(mockKey, "initialValue"),
+    );
+
+    const [storedValue] = result.current;
+    expect(storedValue).toBe("storedValue");
+  });
+
 });
