@@ -42,4 +42,19 @@ describe("useGameState Hook", () => {
     expect(result.current.score).toBe(0);
   });
 
+  it("should update userInput when setUserInput is called", () => {
+    const { result } = renderHook(() => useGameState());
+
+    act(() => {
+      result.current.setUserInput("test input");
+    });
+
+    expect(result.current.userInput).toBe("test input");
+
+    act(() => {
+      result.current.setUserInput("new input");
+    });
+
+    expect(result.current.userInput).toBe("new input");
+  });
 });
