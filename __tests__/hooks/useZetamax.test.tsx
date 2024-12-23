@@ -77,4 +77,16 @@ describe("useZetamax", () => {
     expect(mockGameState.resetInput).not.toHaveBeenCalled();
   });
 
+  it("should restart the game correctly", () => {
+    const { result } = renderHook(() => useZetamax(60));
+
+    act(() => {
+      result.current.restart();
+    });
+
+    expect(mockTimer.reset).toHaveBeenCalled();
+    expect(mockGameState.resetScore).toHaveBeenCalled();
+    expect(mockGameState.resetInput).toHaveBeenCalled();
+    expect(mockQuestionState.nextQuestion).toHaveBeenCalled();
+  });
 });
