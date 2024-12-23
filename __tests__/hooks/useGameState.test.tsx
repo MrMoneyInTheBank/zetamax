@@ -8,4 +8,20 @@ describe("useGameState Hook", () => {
     expect(result.current.score).toBe(0);
     expect(result.current.userInput).toBe("");
   });
+
+  it("should increment the score when incrementScore is called", () => {
+    const { result } = renderHook(() => useGameState());
+
+    act(() => {
+      result.current.incrementScore();
+    });
+
+    expect(result.current.score).toBe(1);
+
+    act(() => {
+      result.current.incrementScore();
+    });
+
+    expect(result.current.score).toBe(2);
+  });
 });
