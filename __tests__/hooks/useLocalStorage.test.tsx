@@ -31,4 +31,20 @@ describe("useLocalStorage", () => {
     expect(storedValue).toBe("storedValue");
   });
 
+  it("should update the value and localStorage when setValue is called", () => {
+    const { result } = renderHook(() =>
+      useLocalStorage(mockKey, "initialValue"),
+    );
+
+    const [, setValue] = result.current;
+
+    act(() => {
+      setValue("newValue");
+    });
+
+    const [updatedValue] = result.current;
+    expect(updatedValue).toBe("newValue");
+    expect(localStorage.getItem(mockKey)).toBe(JSON.stringify("newValue"));
+  });
+
 });
