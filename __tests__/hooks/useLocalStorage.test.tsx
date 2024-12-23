@@ -3,8 +3,15 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 describe("useLocalStorage", () => {
   const mockKey = "testKey";
+  let consoleSpy: jest.SpyInstance<
+    void,
+    [message?: any, ...optionalParams: any[]],
+    any
+  >;
+
   beforeEach(() => {
     localStorage.clear();
+    consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -61,4 +68,20 @@ describe("useLocalStorage", () => {
     expect(localStorage.getItem(mockKey)).toBe(JSON.stringify(1));
   });
 
+  it("should log a warning if reading from localStorage throws an error", () => {
+    const mockGetItem = jest
+      .spyOn(Storage.prototype, "getItem")
+      .mockImplementation(() => {
+        throw new Error("Error reading localStorage");
+      });
+
+    renderHook(() => useLocalStorage(mockKey, "initialValue"));
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(`Error reading localStorage key "${mockKey}"`),
+      expect.any(Error),
+    );
+
+    mockGetItem.mockRestore();
+  });
 });
