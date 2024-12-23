@@ -9,4 +9,20 @@ describe("useTimer", () => {
     expect(result.current.timeLeft).toBe(10);
     expect(result.current.isRunning).toBe(false);
   });
+
+  it("should start the timer and decrement time", () => {
+    const { result } = renderHook(() => useTimer(5));
+
+    act(() => {
+      result.current.start();
+    });
+
+    expect(result.current.isRunning).toBe(true);
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(result.current.timeLeft).toBe(2);
+  });
 });
