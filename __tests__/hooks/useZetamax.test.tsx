@@ -64,4 +64,17 @@ describe("useZetamax", () => {
     expect(mockGameState.resetInput).toHaveBeenCalled();
   });
 
+  it("should handle input without scoring when the answer is incorrect", () => {
+    const { result } = renderHook(() => useZetamax(60));
+
+    act(() => {
+      result.current.handleInput("5");
+    });
+
+    expect(mockGameState.setUserInput).toHaveBeenCalledWith("5");
+    expect(mockGameState.incrementScore).not.toHaveBeenCalled();
+    expect(mockQuestionState.nextQuestion).not.toHaveBeenCalled();
+    expect(mockGameState.resetInput).not.toHaveBeenCalled();
+  });
+
 });
