@@ -46,3 +46,7 @@ convex/getEverything.ts
 # dev stuff
 /misc
 /misc/*
+
+# test coverage reports
+/coverage
+/coverage/*
