@@ -52,4 +52,32 @@ describe("useQuestion Hook", () => {
     expect(updatedQuestion).toHaveProperty("answer");
   });
 
+  it("should always generate valid operations and answers", () => {
+    const { result } = renderHook(() => useQuestion());
+
+    for (let i = 0; i < 100; i++) {
+      act(() => {
+        result.current.nextQuestion();
+      });
+
+      const { num1, num2, operation, answer } = result.current.question;
+
+      switch (operation) {
+        case "+":
+          expect(answer).toBe(num1 + num2);
+          break;
+        case "-":
+          expect(answer).toBe(num1 - num2);
+          break;
+        case "*":
+          expect(answer).toBe(num1 * num2);
+          break;
+        case "/":
+          expect(answer).toBe(num1 / num2);
+          break;
+        default:
+          throw new Error(`Unexpected operation: ${operation}`);
+      }
+    }
+  });
 });
