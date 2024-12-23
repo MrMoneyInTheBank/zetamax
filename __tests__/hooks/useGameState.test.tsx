@@ -57,4 +57,20 @@ describe("useGameState Hook", () => {
 
     expect(result.current.userInput).toBe("new input");
   });
+
+  it("should reset userInput to an empty string when resetInput is called", () => {
+    const { result } = renderHook(() => useGameState());
+
+    act(() => {
+      result.current.setUserInput("test input");
+    });
+
+    expect(result.current.userInput).toBe("test input");
+
+    act(() => {
+      result.current.resetInput();
+    });
+
+    expect(result.current.userInput).toBe("");
+  });
 });
