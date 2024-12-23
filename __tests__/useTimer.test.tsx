@@ -87,4 +87,19 @@ describe("useTimer", () => {
     expect(result.current.timeLeft).toBe(8);
     expect(result.current.isRunning).toBe(false);
   });
+
+  it("should stop the timer when timeLeft reaches zero", () => {
+    const { result } = renderHook(() => useTimer(3));
+
+    act(() => {
+      result.current.start();
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(3000);
+    });
+
+    expect(result.current.timeLeft).toBe(0);
+    expect(result.current.isRunning).toBe(false);
+  });
 });
