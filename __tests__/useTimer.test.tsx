@@ -49,4 +49,23 @@ describe("useTimer", () => {
 
     expect(result.current.timeLeft).toBe(3);
   });
+
+  it("should reset the timer", () => {
+    const { result } = renderHook(() => useTimer(5));
+
+    act(() => {
+      result.current.start();
+    });
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    act(() => {
+      result.current.reset();
+    });
+
+    expect(result.current.timeLeft).toBe(5);
+    expect(result.current.isRunning).toBe(true);
+  });
 });
