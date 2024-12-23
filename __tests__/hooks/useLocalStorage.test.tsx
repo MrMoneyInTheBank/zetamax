@@ -84,4 +84,28 @@ describe("useLocalStorage", () => {
 
     mockGetItem.mockRestore();
   });
+
+  it("should log a warning if writing to localStorage throws an error", () => {
+    const mockSetItem = jest
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new Error("Error writing to localStorage");
+      });
+
+    const { result } = renderHook(() =>
+      useLocalStorage(mockKey, "initialValue"),
+    );
+    const [, setItem] = result.current;
+
+    act(() => {
+      setItem("newValue");
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(`Error setting localStorage key "${mockKey}"`),
+      expect.any(Error),
+    );
+
+    mockSetItem.mockRestore();
+  });
 });
