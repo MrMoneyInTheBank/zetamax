@@ -1,17 +1,30 @@
 "use client";
 
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import { LoginButton } from "@/components/custom-components/login-button/login-button";
 import { LogIn } from "lucide-react";
 
 export const ClerkPortal = () => {
   return (
-    <div className="fixed right-4 top-4 z-30">
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-      <SignedOut>
-        <CustomSignInButton />
-      </SignedOut>
+    <div className="fixed right-4 top-4">
+      <ClerkLoading>
+        <LoginButton loading={true} />
+      </ClerkLoading>
+      <ClerkLoaded>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <CustomSignInButton />
+        </SignedOut>
+      </ClerkLoaded>
     </div>
   );
 };

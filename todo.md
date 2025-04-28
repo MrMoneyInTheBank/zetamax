@@ -1,0 +1,1 @@
+- [x] prefetching/slow static content for login button. why must it load?
