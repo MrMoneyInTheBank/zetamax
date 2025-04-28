@@ -7,6 +7,7 @@ import { ClerkPortal } from "@/components/clerk-components/user-profile/user-pro
 import Analytics from "@/components/custom-components/analytics/analytics";
 import { GamePanel } from "@/components/custom-components/game-panel/game-panel";
 import { LocalScoresContext } from "@/contexts/localScoresContext";
+import { Github } from "@/components/custom-components/github/github";
 
 export default function Home() {
   const { user } = useUser();
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <ClerkPortal />
+      <Github />
       <UserContext.Provider value={user?.id || ""}>
         <LocalScoresContext.Provider value={{ localScores, setLocalScores }}>
           <section className="h-screen bg-gradient-to-tl from-primary-light via-secondary-dark to-primary-dark">
