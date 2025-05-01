@@ -1,36 +1,41 @@
-import { createClerkClient } from "@clerk/nextjs/server";
-import dotenv from "dotenv";
-import fs from "fs";
+import { createClerkClient, User } from "@clerk/nextjs/server";
+import dotenvFlow from "dotenv-flow";
+import { writeFileSync } from "fs";
 
-dotenv.config();
+dotenvFlow.config();
 
 const clerkClient = createClerkClient({
-  secretKey: process.env.CLERK_TEST_SECRET_KEY,
+  secretKey: process.env.CLERK_SECRET_KEY!,
 });
 
-interface User {
-  userId: string;
-  email: string;
-}
+export async function getClerkUsers(): Promise<void> {
+  const users: User[] = [];
 
-async function main() {
-  let users: User[] = [];
-  const users_response = await clerkClient.users.getUserList({
-    limit: 100,
+  const limit = 500;
+  let offset = 0;
+  let totalCount = 0;
+
+  do {
+    const chunk = await clerkClient.users.getUserList({
+      limit: limit,
+      offset: offset,
+    });
+
+    if (totalCount === 0) {
+      totalCount = chunk.totalCount;
+    }
+
+    users.push(...chunk.data);
+
+    offset += limit;
+  } while (offset < totalCount);
+
+  const userIDs: string[] = users.map((user) => {
+    return user.id;
   });
 
-  users_response.data.map((user) => {
-    const new_user: User = {
-      userId: user.id,
-      email: user.primaryEmailAddress!.emailAddress,
-    };
-    users = [...users, new_user];
-  });
-
-  const jsonString = JSON.stringify(users, null, 2);
-
-  fs.writeFileSync("misc/users.json", jsonString, "utf-8");
-  console.log("Exported users to misc/users.json");
+  const userIDsJson = JSON.stringify(userIDs, null, 2);
+  writeFileSync("misc/users.json", userIDsJson, "utf-8");
 }
 
-main();
+getClerkUsers();
