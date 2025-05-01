@@ -8,7 +8,7 @@ const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY!,
 });
 
-export async function getClerkUsers(): Promise<void> {
+export async function getClerkUsers(): Promise<string[]> {
   const users: User[] = [];
 
   const limit = 500;
@@ -36,6 +36,8 @@ export async function getClerkUsers(): Promise<void> {
 
   const userIDsJson = JSON.stringify(userIDs, null, 2);
   writeFileSync("misc/users.json", userIDsJson, "utf-8");
+
+  return userIDs;
 }
 
 getClerkUsers();
