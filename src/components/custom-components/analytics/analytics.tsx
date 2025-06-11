@@ -97,7 +97,9 @@ export default function Analytics() {
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Lowest Score</p>
-                <p className="text-2xl font-bold text-white">{stats.lowest}</p>
+                <p className="text-2xl font-bold text-white">
+                  {stats.lowest.toFixed(2)}
+                </p>
               </div>
               <TrendingDown className="text-red-400" size={24} />
             </div>
