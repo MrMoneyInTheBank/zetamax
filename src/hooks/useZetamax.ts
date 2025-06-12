@@ -4,10 +4,11 @@ import { useCallback } from "react";
 import { useGameState } from "./useGameState";
 import { useQuestion } from "./useQuestion";
 import { useTimer } from "./useTimer";
+import { MathSymbol } from "@/components/custom-components/game-panel/game-panel";
 
-export function useZetamax(gameDuration: number) {
+export function useZetamax(gameDuration: number, customOps?: MathSymbol[]) {
   const timer = useTimer(gameDuration);
-  const questionState = useQuestion();
+  const questionState = useQuestion(customOps);
   const gameState = useGameState();
 
   const handleInput = useCallback(

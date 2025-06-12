@@ -1,13 +1,28 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, ComponentType } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
 import { Timer, Medal, Play } from "lucide-react";
+import { Plus, Minus, X, Divide, LucideProps } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
+
+export type MathSymbol = "+" | "-" | "*" | "/";
+const baseSymbolVariant = {
+  style: "text-indigo-200 transition-transform hover:scale-110",
+  size: 35,
+};
+
+const symbols: Record<MathSymbol, ComponentType<LucideProps>> = {
+  "+": Plus,
+  "-": Minus,
+  "*": X,
+  "/": Divide,
+};
+export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
 export const GamePanel = () => {
   const { toast } = useToast();
@@ -20,6 +35,19 @@ export const GamePanel = () => {
     setDuration(newDuration);
   };
 
+  const [ops, setOps] = useState(defaultOps);
+  const toggleSymbol = (sym: MathSymbol) => {
+    setOps((prev) => {
+      const updated = prev.includes(sym)
+        ? prev.filter((x) => x != sym)
+        : [...prev, sym];
+      if (updated.length === 0) {
+        return defaultOps;
+      }
+      return updated;
+    });
+  };
+
   const {
     timeLeft,
     isRunning,
@@ -28,7 +56,7 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(duration);
+  } = useZetamax(duration, ops);
 
   const handleClick = () => {
     restart();
@@ -80,6 +108,20 @@ export const GamePanel = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
+            <div className="flex justify-evenly">
+              {(Object.keys(symbols) as MathSymbol[]).map((op, index) => {
+                const isActive = ops.includes(op);
+                const Icon = symbols[op as MathSymbol];
+                return (
+                  <button key={index} onClick={() => toggleSymbol(op)}>
+                    <Icon
+                      className={`${baseSymbolVariant.style} ${isActive ? "scale-120" : "scale-75 opacity-70"}`}
+                      size={baseSymbolVariant.size}
+                    />
+                  </button>
+                );
+              })}
+            </div>
             <div className="flex justify-center items-center space-x-4">
               <Timer className="text-indigo-200" size={30} />
               <Button

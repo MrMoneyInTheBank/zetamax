@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  defaultOps,
+  MathSymbol,
+} from "@/components/custom-components/game-panel/game-panel";
 import { useCallback, useState } from "react";
 
 type Range = {
@@ -19,7 +23,7 @@ const generateNumberInRange = (range: Range) =>
   Math.floor(Math.random() * (range.max - range.min + 1)) + range.min;
 
 const OPERATIONS: Record<
-  string,
+  MathSymbol,
   {
     fn: (x: number, y: number) => number;
     getOperands: () => { num1: number; num2: number };
@@ -57,14 +61,17 @@ const OPERATIONS: Record<
   },
 };
 
-export function useQuestion() {
+export function useQuestion(customOps?: MathSymbol[]) {
   const generateQuestion = useCallback(() => {
-    const ops = ["+", "-", "*", "/"];
+    const ops =
+      customOps === undefined || customOps.length === 0
+        ? defaultOps
+        : customOps;
     const operation = ops[Math.floor(Math.random() * ops.length)];
     const { num1, num2 } = OPERATIONS[operation].getOperands();
     const answer = OPERATIONS[operation].fn(num1, num2);
     return { num1, num2, operation, answer };
-  }, []);
+  }, [customOps]);
 
   const [question, setQuestion] = useState(generateQuestion());
 
