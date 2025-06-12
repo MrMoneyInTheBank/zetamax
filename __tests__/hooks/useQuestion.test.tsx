@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useQuestion } from "@/hooks/useQuestion";
+import { useQuestion, type Range } from "@/hooks/useQuestion";
 
 describe("useQuestion Hook", () => {
   it("should generate an initial question correctly", () => {
@@ -31,6 +31,41 @@ describe("useQuestion Hook", () => {
       default:
         throw new Error(`Unexpected operation: ${operation}`);
     }
+  });
+
+  it("should only generate questions from selected operations", () => {
+    const { result } = renderHook(() => useQuestion(["+"]));
+    const question = result.current.question;
+    const { operation } = question;
+
+    expect(operation).toBe("+");
+  });
+
+  it("should only generate questions from selected operations", () => {
+    const { result } = renderHook(() => useQuestion(["+", "/"]));
+    const question = result.current.question;
+    const { operation } = question;
+
+    expect(["+", "/"]).toContain(operation);
+    expect(["-", "*"]).not.toContain(operation);
+  });
+
+  it("should only generate numbers within given range (subtraction)", () => {
+    const range: Range = { min: 1, max: 1 };
+    const { result } = renderHook(() => useQuestion(["-"], range));
+    const question = result.current.question;
+
+    expect(question.num1).toBe(2);
+    expect(question.num2).toBe(1);
+  });
+
+  it("should only generate numbers within given range (subtraction)", () => {
+    const range: Range = { min: 1, max: 1 };
+    const { result } = renderHook(() => useQuestion(["+", "*", "/"], range));
+    const question = result.current.question;
+
+    expect(question.num1).toBe(1);
+    expect(question.num2).toBe(1);
   });
 
   it("should update the question when nextQuestion is called", () => {

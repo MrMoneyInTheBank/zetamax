@@ -1,6 +1,6 @@
 {
   "name": "zetamax",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "users": "tsx src/scripts/getAllUsers.ts"
+    "users": "tsx src/scripts/getAllUsers.ts",
+    "docker-start": "zsh docker-start.sh"
   },
   "dependencies": {
     "@clerk/backend": "^1.21.4",
