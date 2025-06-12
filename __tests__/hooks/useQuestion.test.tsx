@@ -1,6 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useQuestion } from "@/hooks/useQuestion";
-import { type MathSymbol } from "@/components/custom-components/game-panel/game-panel";
+import { useQuestion, type Range } from "@/hooks/useQuestion";
 
 describe("useQuestion Hook", () => {
   it("should generate an initial question correctly", () => {
@@ -49,6 +48,15 @@ describe("useQuestion Hook", () => {
 
     expect(["+", "/"]).toContain(operation);
     expect(["-", "*"]).not.toContain(operation);
+  });
+
+  it("should only generate numbers within given range", () => {
+    const range: Range = { min: 1, max: 1 };
+    const { result } = renderHook(() => useQuestion(undefined, range));
+    const question = result.current.question;
+
+    expect(question.num1).toBe(question.num2);
+    expect(question.num1).toBe(1);
   });
 
   it("should update the question when nextQuestion is called", () => {
