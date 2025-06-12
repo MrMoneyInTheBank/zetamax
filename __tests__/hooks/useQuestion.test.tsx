@@ -55,8 +55,8 @@ describe("useQuestion Hook", () => {
     const { result } = renderHook(() => useQuestion(undefined, range));
     const question = result.current.question;
 
-    expect(question.num1).toBe(question.num2);
     expect(question.num1).toBe(1);
+    expect(question.num2).toBe(1);
   });
 
   it("should update the question when nextQuestion is called", () => {
