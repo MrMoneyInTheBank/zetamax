@@ -1,5 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useQuestion } from "@/hooks/useQuestion";
+import { type MathSymbol } from "@/components/custom-components/game-panel/game-panel";
 
 describe("useQuestion Hook", () => {
   it("should generate an initial question correctly", () => {
@@ -31,6 +32,23 @@ describe("useQuestion Hook", () => {
       default:
         throw new Error(`Unexpected operation: ${operation}`);
     }
+  });
+
+  it("should only generate questions from selected operations", () => {
+    const { result } = renderHook(() => useQuestion(["+"]));
+    const question = result.current.question;
+    const { operation } = question;
+
+    expect(operation).toBe("+");
+  });
+
+  it("should only generate questions from selected operations", () => {
+    const { result } = renderHook(() => useQuestion(["+", "/"]));
+    const question = result.current.question;
+    const { operation } = question;
+
+    expect(["+", "/"]).toContain(operation);
+    expect(["-", "*"]).not.toContain(operation);
   });
 
   it("should update the question when nextQuestion is called", () => {
