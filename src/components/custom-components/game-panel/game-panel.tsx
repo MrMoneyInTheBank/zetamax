@@ -1,27 +1,20 @@
 "use client";
 
-import { useState, useEffect, useContext, ComponentType } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
-import { Timer, Medal, Play } from "lucide-react";
-import { Plus, Minus, X, Divide, LucideProps } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Play, ChartNoAxesGantt } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
+import { Range } from "@/hooks/useQuestion";
+import { TimePanel } from "./time-panel";
+import { ToolTipWrapper } from "../tooltip-wrapper/tooltip-wrapper";
+import { PlayingScreen } from "./playing-screen";
+import { MathSymbol } from "./symbols-panel";
+import { SymbolsPanel } from "./symbols-panel";
+import { RangePanel } from "./range-panel";
 
-export type MathSymbol = "+" | "-" | "*" | "/";
-const baseSymbolVariant = {
-  style: "text-indigo-200 transition-transform hover:scale-110",
-  size: 35,
-};
-
-const symbols: Record<MathSymbol, ComponentType<LucideProps>> = {
-  "+": Plus,
-  "-": Minus,
-  "*": X,
-  "/": Divide,
-};
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
 export const GamePanel = () => {
@@ -47,6 +40,18 @@ export const GamePanel = () => {
       return updated;
     });
   };
+  const [range, setRange] = useState<Range | undefined>(undefined);
+  const [settingRange, setSettingRange] = useState(false);
+
+  const toggleRange = () => {
+    if (settingRange) {
+      setRange(undefined);
+      setSettingRange(false);
+    } else {
+      setRange({ min: 1, max: 10 });
+      setSettingRange(true);
+    }
+  };
 
   const {
     timeLeft,
@@ -56,7 +61,7 @@ export const GamePanel = () => {
     question,
     handleInput,
     restart,
-  } = useZetamax(duration, ops);
+  } = useZetamax(duration, ops, range);
 
   const handleClick = () => {
     restart();
@@ -108,44 +113,24 @@ export const GamePanel = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
-            <div className="flex justify-evenly">
-              {(Object.keys(symbols) as MathSymbol[]).map((op, index) => {
-                const isActive = ops.includes(op);
-                const Icon = symbols[op as MathSymbol];
-                return (
-                  <button key={index} onClick={() => toggleSymbol(op)}>
-                    <Icon
-                      className={`${baseSymbolVariant.style} ${isActive ? "scale-120" : "scale-75 opacity-70"}`}
-                      size={baseSymbolVariant.size}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            <SymbolsPanel ops={ops} toggleSymbol={toggleSymbol} />
             <div className="flex justify-center items-center space-x-4">
-              <Timer className="text-indigo-200" size={30} />
-              <Button
-                variant={duration === 30 ? "default" : "outline"}
-                onClick={() => handleDurationChange(30)}
-                className={`w-20 ${duration === 30 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
-              >
-                30s
-              </Button>
-              <Button
-                variant={duration === 60 ? "default" : "outline"}
-                onClick={() => handleDurationChange(60)}
-                className={`w-20 ${duration === 60 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
-              >
-                60s
-              </Button>
-              <Button
-                variant={duration === 120 ? "default" : "outline"}
-                onClick={() => handleDurationChange(120)}
-                className={`w-20 ${duration === 120 ? "bg-gradient-to-r from-indigo-500 to-purple-500" : "bg-zinc-300"} border-none transition-transform hover:scale-110`}
-              >
-                120s
-              </Button>
-              <Timer className="text-indigo-200 invisible" size={30} />
+              {settingRange ? (
+                <RangePanel setRange={setRange} />
+              ) : (
+                <TimePanel
+                  duration={duration}
+                  handleDurationChange={handleDurationChange}
+                />
+              )}
+              <ToolTipWrapper text="Set custom range">
+                <button className="relative" onClick={() => toggleRange()}>
+                  <ChartNoAxesGantt
+                    className="text-indigo-200 hover:scale-125 transition-transform"
+                    size={30}
+                  />
+                </button>
+              </ToolTipWrapper>
             </div>
             <button
               onClick={handleClick}
@@ -158,43 +143,14 @@ export const GamePanel = () => {
             </button>
           </div>
         ) : (
-          <div className="space-y-8">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-lg">
-                <Timer className="text-indigo-200" size={20} />
-                <span className="text-xl font-mono text-indigo-200">
-                  {timeLeft}s
-                </span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-lg">
-                <Medal className="text-purple-200" size={20} />
-                <span className="text-xl font-mono text-purple-200">
-                  {score}
-                </span>
-              </div>
-            </div>
-
-            <div className="text-4xl font-bold text-center text-white py-4">
-              <span className="mx-2">{question.num1}</span>
-              <span className="mx-2 text-indigo-300">{question.operation}</span>
-              <span className="mx-2">{question.num2}</span>
-            </div>
-
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => handleInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Tab") {
-                  e.preventDefault();
-                  restart();
-                }
-              }}
-              className="w-full bg-white/10 border-2 border-white/20 rounded-lg px-4 py-3 text-2xl text-center text-white placeholder-white/50 focus:outline-none focus:border-indigo-400 transition-colors"
-              placeholder=""
-              autoFocus
-            />
-          </div>
+          <PlayingScreen
+            timeLeft={timeLeft}
+            score={score}
+            question={question}
+            userInput={userInput}
+            handleInput={handleInput}
+            restart={restart}
+          />
         )}
       </div>
     </section>
