@@ -142,6 +142,12 @@ export const GamePanel = () => {
               type="text"
               value={userInput}
               onChange={(e) => handleInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Tab") {
+                  e.preventDefault();
+                  restart();
+                }
+              }}
               className="w-full bg-white/10 border-2 border-white/20 rounded-lg px-4 py-3 text-2xl text-center text-white placeholder-white/50 focus:outline-none focus:border-indigo-400 transition-colors"
               placeholder=""
               autoFocus
