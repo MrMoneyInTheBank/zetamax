@@ -71,6 +71,16 @@ export const GamePanel = () => {
   const handleGameEnd = async () => {
     if (played && !isRunning) {
       const scaledScore = (score / duration) * 120;
+      if (range !== undefined || ops.length !== 4) {
+        toast({
+          title: "Result not saved.",
+          description: "Custom game skipped in records.",
+          className:
+            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
+        });
+        return;
+      }
+
       const {
         success: saveSuccess,
         message: saveMessage,
