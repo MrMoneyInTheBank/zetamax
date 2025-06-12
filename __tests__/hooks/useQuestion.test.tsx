@@ -50,9 +50,18 @@ describe("useQuestion Hook", () => {
     expect(["-", "*"]).not.toContain(operation);
   });
 
-  it("should only generate numbers within given range", () => {
+  it("should only generate numbers within given range (subtraction)", () => {
     const range: Range = { min: 1, max: 1 };
-    const { result } = renderHook(() => useQuestion(undefined, range));
+    const { result } = renderHook(() => useQuestion(["-"], range));
+    const question = result.current.question;
+
+    expect(question.num1).toBe(2);
+    expect(question.num2).toBe(1);
+  });
+
+  it("should only generate numbers within given range (subtraction)", () => {
+    const range: Range = { min: 1, max: 1 };
+    const { result } = renderHook(() => useQuestion(["+", "*", "/"], range));
     const question = result.current.question;
 
     expect(question.num1).toBe(1);
