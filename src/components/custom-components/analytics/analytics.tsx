@@ -77,28 +77,26 @@ export default function Analytics() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-4 gap-4 mb-6 text-md sm:text-2xl">
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Highest Score</p>
-                <p className="text-2xl font-bold text-white">{stats.highest}</p>
+                <p className="font-bold text-white">{stats.highest}</p>
               </div>
               <Trophy className="text-yellow-400" size={24} />
             </div>
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Mean Score</p>
-                <p className="text-2xl font-bold text-white">
-                  {stats.mean.toFixed(2)}
-                </p>
+                <p className="font-bold text-white">{stats.mean.toFixed(2)}</p>
               </div>
               <Target className="text-green-400" size={24} />
             </div>
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Lowest Score</p>
-                <p className="text-2xl font-bold text-white">
-                  {stats.lowest.toFixed(2)}
+                <p className="font-bold text-white">
+                  {stats.lowest.toFixed(0)}
                 </p>
               </div>
               <TrendingDown className="text-red-400" size={24} />

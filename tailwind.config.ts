@@ -10,6 +10,9 @@ export default {
   safelist: ["top-4", "bottom-4", "left-4", "right-4"],
   theme: {
     extend: {
+      screens: {
+        xs: "430px",
+      },
       colors: {
         primary: "#6b42b7",
         "primary-content": "#fcfbfd",
