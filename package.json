@@ -10,7 +10,10 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "users": "tsx src/scripts/getAllUsers.ts",
-    "docker-start": "zsh docker-start.sh"
+    "docker-start": "zsh docker-start.sh",
+    "bump:major": "npm version major && git push --follow-tags",
+    "bump:minor": "npm version minor && git push --follow-tags",
+    "bump:patch": "npm version patch && git push --follow-tags"
   },
   "dependencies": {
     "@clerk/backend": "^1.21.4",
