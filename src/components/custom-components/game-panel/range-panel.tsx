@@ -32,10 +32,6 @@ export const RangePanel = ({ setRange }: RangePanelProps) => {
           });
         }}
       />
-      {/*
-
-      */}
-
       <span className="text-md font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
         To
       </span>
