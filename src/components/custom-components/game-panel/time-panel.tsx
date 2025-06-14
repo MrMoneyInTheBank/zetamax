@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Timer } from "lucide-react";
-import { ToolTipWrapper } from "../tooltip-wrapper/tooltip-wrapper";
 
 interface TimePanelProps {
   duration: number;
@@ -13,9 +11,6 @@ export const TimePanel = ({
 }: TimePanelProps) => {
   return (
     <>
-      <ToolTipWrapper text="Set duration">
-        <Timer className="text-indigo-200" size={30} />
-      </ToolTipWrapper>
       <Button
         variant={duration === 30 ? "default" : "outline"}
         onClick={() => handleDurationChange(30)}
