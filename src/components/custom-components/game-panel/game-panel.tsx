@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
-import { Play, ChartNoAxesGantt } from "lucide-react";
+import { Play, ChartNoAxesGantt, Timer } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
 import { Range } from "@/hooks/useQuestion";
@@ -124,15 +124,20 @@ export const GamePanel = () => {
               {bannerText}
             </h1>
             <SymbolsPanel ops={ops} toggleSymbol={toggleSymbol} />
-            <div className="flex justify-center items-center space-x-4">
-              {settingRange ? (
-                <RangePanel setRange={setRange} />
-              ) : (
-                <TimePanel
-                  duration={duration}
-                  handleDurationChange={handleDurationChange}
-                />
-              )}
+            <div className="flex justify-center items-center">
+              <ToolTipWrapper text="Set duration">
+                <Timer className="text-indigo-200" size={30} />
+              </ToolTipWrapper>
+              <div className="flex justify-center items-center w-full space-x-4">
+                {settingRange ? (
+                  <RangePanel setRange={setRange} />
+                ) : (
+                  <TimePanel
+                    duration={duration}
+                    handleDurationChange={handleDurationChange}
+                  />
+                )}
+              </div>
               <ToolTipWrapper text="Set custom range">
                 <button className="relative" onClick={() => toggleRange()}>
                   <ChartNoAxesGantt
