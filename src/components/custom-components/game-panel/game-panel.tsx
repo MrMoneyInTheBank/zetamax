@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
-import { Play, ChartNoAxesGantt } from "lucide-react";
+import { Play, ChartNoAxesGantt, Timer } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
 import { Range } from "@/hooks/useQuestion";
@@ -14,6 +14,7 @@ import { PlayingScreen } from "./playing-screen";
 import { MathSymbol } from "./symbols-panel";
 import { SymbolsPanel } from "./symbols-panel";
 import { RangePanel } from "./range-panel";
+import { motion } from "motion/react";
 
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
@@ -117,22 +118,31 @@ export const GamePanel = () => {
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6"
+      >
         {!isRunning ? (
           <div className="space-y-6 text-center">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
               {bannerText}
             </h1>
             <SymbolsPanel ops={ops} toggleSymbol={toggleSymbol} />
-            <div className="flex justify-center items-center space-x-4">
-              {settingRange ? (
-                <RangePanel setRange={setRange} />
-              ) : (
-                <TimePanel
-                  duration={duration}
-                  handleDurationChange={handleDurationChange}
-                />
-              )}
+            <div className="flex justify-center items-center">
+              <ToolTipWrapper text="Set duration">
+                <Timer className="text-indigo-200" size={30} />
+              </ToolTipWrapper>
+              <div className="flex justify-center items-center w-full space-x-4">
+                {settingRange ? (
+                  <RangePanel setRange={setRange} />
+                ) : (
+                  <TimePanel
+                    duration={duration}
+                    handleDurationChange={handleDurationChange}
+                  />
+                )}
+              </div>
               <ToolTipWrapper text="Set custom range">
                 <button className="relative" onClick={() => toggleRange()}>
                   <ChartNoAxesGantt
@@ -162,7 +172,7 @@ export const GamePanel = () => {
             restart={restart}
           />
         )}
-      </div>
+      </motion.div>
     </section>
   );
 };

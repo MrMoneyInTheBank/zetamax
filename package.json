@@ -1,6 +1,6 @@
 {
   "name": "zetamax",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,7 +10,10 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "users": "tsx src/scripts/getAllUsers.ts",
-    "docker-start": "zsh docker-start.sh"
+    "docker-start": "zsh docker-start.sh",
+    "bump:major": "npm version major && git push --follow-tags",
+    "bump:minor": "npm version minor && git push --follow-tags",
+    "bump:patch": "npm version patch && git push --follow-tags"
   },
   "dependencies": {
     "@clerk/backend": "^1.21.4",
@@ -23,6 +26,7 @@
     "convex": "^1.17.0",
     "dotenv": "^16.4.7",
     "lucide-react": "^0.456.0",
+    "motion": "^12.18.1",
     "next": "15.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
