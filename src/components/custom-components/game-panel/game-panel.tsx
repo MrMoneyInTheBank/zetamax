@@ -14,6 +14,7 @@ import { PlayingScreen } from "./playing-screen";
 import { MathSymbol } from "./symbols-panel";
 import { SymbolsPanel } from "./symbols-panel";
 import { RangePanel } from "./range-panel";
+import { motion } from "motion/react";
 
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
@@ -117,7 +118,11 @@ export const GamePanel = () => {
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6"
+      >
         {!isRunning ? (
           <div className="space-y-6 text-center">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
@@ -167,7 +172,7 @@ export const GamePanel = () => {
             restart={restart}
           />
         )}
-      </div>
+      </motion.div>
     </section>
   );
 };
