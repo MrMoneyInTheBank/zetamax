@@ -71,7 +71,7 @@ export const GamePanel = () => {
 
   const handleGameEnd = async () => {
     if (played && !isRunning) {
-      const scaledScore = (score / duration) * 120;
+      const scaledScore = Math.round((score / duration) * 120);
       if (range !== undefined || ops.length !== 4) {
         toast({
           title: "Result not saved.",

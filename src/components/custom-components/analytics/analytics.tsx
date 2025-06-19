@@ -24,6 +24,7 @@ import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { handleUserAuthChange } from "@/lib/handleUserAuthChange";
+import { ScoreChart } from "./chart";
 
 export default function Analytics() {
   const userId = useContext(UserContext);
@@ -55,9 +56,9 @@ export default function Analytics() {
 
     const scores = userScores.map((score) => score);
     setStats({
-      highest: Math.max(...scores),
+      highest: Math.round(Math.max(...scores)),
       mean: scores.reduce((a, b) => a + b, 0) / scores.length,
-      lowest: Math.min(...scores),
+      lowest: Math.round(Math.min(...scores)),
     });
   }, [userScores]);
 
@@ -95,9 +96,7 @@ export default function Analytics() {
             <div className="bg-white/20 rounded-lg p-4 flex items-center justify-between">
               <div>
                 <p className="text-sm text-indigo-200">Lowest Score</p>
-                <p className="font-bold text-white">
-                  {stats.lowest.toFixed(0)}
-                </p>
+                <p className="font-bold text-white">{stats.lowest}</p>
               </div>
               <TrendingDown className="text-red-400" size={24} />
             </div>
@@ -113,55 +112,7 @@ export default function Analytics() {
           </div>
 
           <div className="h-[320px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={userScores}
-                margin={{ top: 5, right: 30, left: 20, bottom: 25 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="rgba(255,255,255,0.1)"
-                />
-                <XAxis
-                  dataKey="index"
-                  stroke="rgba(255,255,255,0.5)"
-                  label={{
-                    value: "Quiz Number",
-                    position: "insideBottom",
-                    offset: -15,
-                    fill: "rgba(255,255,255,0.5)",
-                  }}
-                />
-                <YAxis
-                  stroke="rgba(255,255,255,0.5)"
-                  label={{
-                    value: "Score",
-                    angle: -90,
-                    position: "insideLeft",
-                    fill: "rgba(255,255,255,0.5)",
-                  }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    border: "none",
-                    borderRadius: "4px",
-                    color: "#fff",
-                  }}
-                  labelStyle={{ color: "#aaa" }}
-                  formatter={(value) => [`Score: ${value}`]}
-                  labelFormatter={(label) => `Quiz ${label}`}
-                />
-                <Line
-                  type="monotone"
-                  dataKey={(data) => data}
-                  stroke="#8884d8"
-                  strokeWidth={2}
-                  dot={{ fill: "#8884d8", strokeWidth: 2 }}
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <ScoreChart userScores={userScores} />
           </div>
         </CardContent>
       </Card>
