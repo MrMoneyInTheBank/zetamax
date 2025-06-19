@@ -2,15 +2,6 @@
 
 import { useState, useEffect, useContext, useCallback } from "react";
 import {
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import {
   Card,
   CardContent,
   CardHeader,
