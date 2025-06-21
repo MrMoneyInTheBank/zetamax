@@ -22,7 +22,7 @@ export default function Home() {
       </div>
       <UserContext.Provider value={user?.id || ""}>
         <LocalScoresContext.Provider value={{ localScores, setLocalScores }}>
-          <section className="h-screen bg-gradient-to-tl from-primary-light via-secondary-dark to-primary-dark">
+          <section>
             <div className="hidden xs:block">
               <GamePanel />
               <Analytics />

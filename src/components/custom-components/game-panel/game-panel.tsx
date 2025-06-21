@@ -117,7 +117,7 @@ export const GamePanel = () => {
   const bannerText = played ? resultText : welcomeText;
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex flex-col items-center justify-center p-4">
+    <section className="min-h-screen flex flex-col items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
