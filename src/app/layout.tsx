@@ -21,7 +21,9 @@ export default function RootLayout({
   return (
     <ClerkProvider appearance={clerkAppearance} afterSignOutUrl={"/"}>
       <html lang="en">
-        <body className={`${inter.className} bg-secondary-dark`}>
+        <body
+          className={`${inter.className} min-h-full bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 bg-purple-950`}
+        >
           <ConvexClientProvider>{children}</ConvexClientProvider>
           <Toaster />
         </body>

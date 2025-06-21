@@ -58,7 +58,7 @@ export default function Analytics() {
   }, [calculateStats]);
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex flex-col items-center justify-center p-4">
+    <section className="min-h-screen  flex flex-col items-center justify-center p-4">
       <Card className="w-full max-w-4xl bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20">
         <CardHeader>
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
