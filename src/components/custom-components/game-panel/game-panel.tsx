@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
-import { Play, ChartNoAxesGantt, Timer } from "lucide-react";
+import { Play, ChartNoAxesGantt, Timer, Swords } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
 import { addUserScore } from "@/lib/addUserScore";
 import { Range } from "@/hooks/useQuestion";
@@ -15,6 +15,8 @@ import { MathSymbol } from "./symbols-panel";
 import { SymbolsPanel } from "./symbols-panel";
 import { RangePanel } from "./range-panel";
 import { motion } from "motion/react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
@@ -116,62 +118,94 @@ export const GamePanel = () => {
   const resultText = `Score: ${score}`;
   const bannerText = played ? resultText : welcomeText;
 
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!divRef.current) {
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        console.log("Resized:", { width, height });
+      }
+    });
+
+    observer.observe(divRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="min-h-screen flex flex-col items-center justify-center p-4">
       <motion.div
+        ref={divRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 space-y-6"
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 relative"
       >
-        {!isRunning ? (
-          <div className="space-y-6 text-center">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
-              {bannerText}
-            </h1>
-            <SymbolsPanel ops={ops} toggleSymbol={toggleSymbol} />
-            <div className="flex justify-center items-center">
-              <ToolTipWrapper text="Set duration">
-                <Timer className="text-indigo-200" size={30} />
-              </ToolTipWrapper>
-              <div className="flex justify-center items-center w-full space-x-4">
-                {settingRange ? (
-                  <RangePanel setRange={setRange} />
-                ) : (
-                  <TimePanel
-                    duration={duration}
-                    handleDurationChange={handleDurationChange}
-                  />
-                )}
+        <div className="absolute top-4 right-4">
+          <ToolTipWrapper
+            text="Battle mode"
+            className="transition-transform hover:scale-125"
+          >
+            <Link href="/multiplayer">
+              <Swords color="#e9d5ff" className="size-8" />
+            </Link>
+          </ToolTipWrapper>
+        </div>
+        <div className="space-y-6">
+          {!isRunning ? (
+            <div className="space-y-6 text-center">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-200 to-purple-200 bg-clip-text text-transparent">
+                {bannerText}
+              </h1>
+              <SymbolsPanel ops={ops} toggleSymbol={toggleSymbol} />
+              <div className="flex justify-center items-center">
+                <ToolTipWrapper text="Set duration">
+                  <Timer className="text-indigo-200" size={30} />
+                </ToolTipWrapper>
+                <div className="flex justify-center items-center w-full space-x-4">
+                  {settingRange ? (
+                    <RangePanel setRange={setRange} />
+                  ) : (
+                    <TimePanel
+                      duration={duration}
+                      handleDurationChange={handleDurationChange}
+                    />
+                  )}
+                </div>
+                <ToolTipWrapper text="Set custom range">
+                  <button className="relative" onClick={() => toggleRange()}>
+                    <ChartNoAxesGantt
+                      className="text-indigo-200 hover:scale-125 transition-transform"
+                      size={30}
+                    />
+                  </button>
+                </ToolTipWrapper>
               </div>
-              <ToolTipWrapper text="Set custom range">
-                <button className="relative" onClick={() => toggleRange()}>
-                  <ChartNoAxesGantt
-                    className="text-indigo-200 hover:scale-125 transition-transform"
-                    size={30}
-                  />
-                </button>
-              </ToolTipWrapper>
+              <button
+                onClick={handleClick}
+                className="group relative px-8 py-3 w-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg text-white font-semibold text-lg transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Play size={20} className="group-hover:animate-pulse" />
+                  {played ? "Play Again" : "Start Game"}
+                </span>
+              </button>
             </div>
-            <button
-              onClick={handleClick}
-              className="group relative px-8 py-3 w-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg text-white font-semibold text-lg transition-all hover:from-indigo-600 hover:to-purple-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-purple-900"
-            >
-              <span className="flex items-center justify-center gap-2">
-                <Play size={20} className="group-hover:animate-pulse" />
-                {played ? "Play Again" : "Start Game"}
-              </span>
-            </button>
-          </div>
-        ) : (
-          <PlayingScreen
-            timeLeft={timeLeft}
-            score={score}
-            question={question}
-            userInput={userInput}
-            handleInput={handleInput}
-            restart={restart}
-          />
-        )}
+          ) : (
+            <PlayingScreen
+              timeLeft={timeLeft}
+              score={score}
+              question={question}
+              userInput={userInput}
+              handleInput={handleInput}
+              restart={restart}
+            />
+          )}
+        </div>
       </motion.div>
     </section>
   );
