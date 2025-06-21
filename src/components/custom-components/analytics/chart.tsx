@@ -50,7 +50,7 @@ export const ScoreChart = ({ userScores }: { userScores: number[] }) => {
             color: "#fff",
           }}
           labelStyle={{ color: "#aaa" }}
-          formatter={(value, _, __) => [
+          formatter={(value) => [
             <div key="tooltip-content">
               <div>Score: {value}</div>
               <div>Time per question: {`${(120 / +value).toFixed(2)}s`}</div>
