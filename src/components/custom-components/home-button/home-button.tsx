@@ -5,7 +5,7 @@ import { CustomButton } from "../custom-button/custom-button";
 export const HomeButton = () => {
   return (
     <CustomButton top="4" left="4">
-      <Link href="/" target="_blank">
+      <Link href="/">
         <House color={"white"} size={45} />
       </Link>
     </CustomButton>

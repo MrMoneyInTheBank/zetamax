@@ -8,7 +8,6 @@ import Analytics from "@/components/custom-components/analytics/analytics";
 import { GamePanel } from "@/components/custom-components/game-panel/game-panel";
 import { LocalScoresContext } from "@/contexts/localScoresContext";
 import { Github } from "@/components/custom-components/github/github";
-import { ScreenSizeWarning } from "@/components/custom-components/screensize-warning/screensize-warning";
 
 export default function Home() {
   const { user } = useUser();
@@ -16,10 +15,8 @@ export default function Home() {
 
   return (
     <>
-      <div className="hidden xs:block">
-        <ClerkPortal />
-        <Github />
-      </div>
+      <ClerkPortal />
+      <Github />
       <UserContext.Provider value={user?.id || ""}>
         <LocalScoresContext.Provider value={{ localScores, setLocalScores }}>
           <section>
@@ -27,7 +24,6 @@ export default function Home() {
               <GamePanel />
               <Analytics />
             </div>
-            <ScreenSizeWarning className="block xs:hidden" />
           </section>
         </LocalScoresContext.Provider>
       </UserContext.Provider>
