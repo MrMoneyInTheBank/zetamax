@@ -50,3 +50,6 @@ convex/getEverything.ts
 # test coverage reports
 /coverage
 /coverage/*
+
+# Go stuff
+websocket-server/tmp*
