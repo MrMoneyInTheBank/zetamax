@@ -16,7 +16,6 @@ import { SymbolsPanel } from "./symbols-panel";
 import { RangePanel } from "./range-panel";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
 
@@ -150,7 +149,7 @@ export const GamePanel = () => {
             text="Battle mode"
             className="transition-transform hover:scale-125"
           >
-            <Link href="/multiplayer">
+            <Link href="/battle">
               <Swords color="#e9d5ff" className="size-8" />
             </Link>
           </ToolTipWrapper>
