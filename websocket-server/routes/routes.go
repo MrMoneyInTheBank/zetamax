@@ -1,0 +1,34 @@
+package routes
+
+import (
+	"encoding/json"
+	"net/http"
+
+	"websocket-server/room"
+)
+
+func CreateRoom(w http.ResponseWriter, req *http.Request) {
+	if req.Method != http.MethodGet {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	} else {
+		room.RoomsMutex.Lock()
+		defer room.RoomsMutex.Unlock()
+	}
+
+	roomPtr := room.CreateRoom()
+	room.Rooms[roomPtr.ID] = roomPtr
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	response := map[string]string{"roomID": roomPtr.ID}
+	jsonResponse, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, "Something went wrong in json marshalling", http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(jsonResponse)
+}
+
