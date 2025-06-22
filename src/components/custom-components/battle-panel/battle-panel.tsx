@@ -79,8 +79,10 @@ interface BattleButtonProps {
   setRoomID: Dispatch<SetStateAction<string | null>>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface JoinRoomButtonProps extends BattleButtonProps { }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const JoinRoomButton = ({ setRoomID }: JoinRoomButtonProps) => {
   return (
     <button className="w-full bg-white/20 rounded-lg flex flex-col p-3 items-center justify-center hover:bg-white/30 transition-all duration-200 group">
@@ -90,6 +92,7 @@ const JoinRoomButton = ({ setRoomID }: JoinRoomButtonProps) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CreateRoomButtonProps extends BattleButtonProps { }
 
 const CreateRoomButton = ({ setRoomID }: CreateRoomButtonProps) => {

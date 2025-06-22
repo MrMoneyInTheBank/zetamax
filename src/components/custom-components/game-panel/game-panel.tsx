@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
@@ -117,29 +117,9 @@ export const GamePanel = () => {
   const resultText = `Score: ${score}`;
   const bannerText = played ? resultText : welcomeText;
 
-  const divRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!divRef.current) {
-      return;
-    }
-
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        const { width, height } = entry.contentRect;
-        console.log("Resized:", { width, height });
-      }
-    });
-
-    observer.observe(divRef.current);
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section className="min-h-screen flex flex-col items-center justify-center p-4">
       <motion.div
-        ref={divRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="w-full max-w-md bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-8 relative"
