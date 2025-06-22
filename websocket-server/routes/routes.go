@@ -113,3 +113,12 @@ func ListRooms(w http.ResponseWriter, req *http.Request) {
 	w.Write(jsonResponse)
 }
 
+func Health(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	response := map[string]string{
+		"message": "WebSocket server is running",
+	}
+
+	json.NewEncoder(w).Encode(response)
+}
