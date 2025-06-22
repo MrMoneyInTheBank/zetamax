@@ -10,11 +10,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "users": "tsx src/scripts/getAllUsers.ts",
-    "docker-start": "zsh docker-start.sh",
+    "test-docker-start": "zsh test-docker-start.sh",
     "bump:major": "npm version major && git push --follow-tags",
     "bump:minor": "npm version minor && git push --follow-tags",
     "bump:patch": "npm version patch && git push --follow-tags",
-    "ws-server": "cd websocket-server && air",
+    "ws-server": "websocket-server/battle-docker-start.sh",
     "all": "concurrently \"npm run dev\" \"npm run ws-server\""
   },
   "dependencies": {
