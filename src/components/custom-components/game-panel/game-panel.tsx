@@ -18,6 +18,8 @@ import { motion } from "motion/react";
 import Link from "next/link";
 
 export const defaultOps: MathSymbol[] = ["+", "-", "*", "/"];
+const TOAST_STYLE =
+  "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white";
 
 export const GamePanel = () => {
   const { toast } = useToast();
@@ -77,34 +79,39 @@ export const GamePanel = () => {
         toast({
           title: "Result not saved.",
           description: "Custom game skipped in records.",
-          className:
-            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
+          className: TOAST_STYLE,
         });
         return;
       }
 
-      const {
-        success: saveSuccess,
-        message: saveMessage,
-        description: saveDescription,
-      } = await addUserScore(userId, scaledScore);
-
-      if (!saveSuccess) {
+      if (!userId || userId === "") {
         toast({
-          title: saveMessage,
-          description: saveDescription,
-          className:
-            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
+          title: "Create an account to save your scores.",
+          description: "Click on the top right corner to create an account.",
+          className: TOAST_STYLE,
         });
-
         setLocalScores((prev) => [...prev, scaledScore]);
       } else {
-        toast({
-          title: "Previous score saved!",
+        const {
+          success: saveSuccess,
+          message: saveMessage,
           description: saveDescription,
-          className:
-            "bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 text-white",
-        });
+        } = await addUserScore(userId, scaledScore);
+
+        if (!saveSuccess) {
+          toast({
+            title: saveMessage,
+            description: saveDescription,
+            className: TOAST_STYLE,
+          });
+          setLocalScores((prev) => [...prev, scaledScore]);
+        } else {
+          toast({
+            title: "Previous score saved!",
+            description: saveDescription,
+            className: TOAST_STYLE,
+          });
+        }
       }
     }
   };
