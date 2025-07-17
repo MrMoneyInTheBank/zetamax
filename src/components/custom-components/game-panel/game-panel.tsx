@@ -91,6 +91,13 @@ export const GamePanel = () => {
         });
         setLocalScores((prev) => [...prev, scaledScore]);
       } else {
+        setLocalScores((prev) => [...prev, scaledScore]);
+        toast({
+          title: "Score saved locally.",
+          description: "Could not save remotely due to rate limits.",
+          className: TOAST_STYLE,
+        });
+        /*
         const {
           success: saveSuccess,
           message: saveMessage,
@@ -110,7 +117,7 @@ export const GamePanel = () => {
             description: saveDescription,
             className: TOAST_STYLE,
           });
-        }
+        } */
       }
     }
   };
