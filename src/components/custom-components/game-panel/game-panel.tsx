@@ -6,7 +6,7 @@ import { useLocalScores } from "@/hooks/useLocalScores";
 import { useZetamax } from "@/hooks/useZetamax";
 import { Play, ChartNoAxesGantt, Timer } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
-import { addUserScore } from "@/lib/addUserScore";
+// import { addUserScore } from "@/lib/addUserScore";
 import { Range } from "@/hooks/useQuestion";
 import { TimePanel } from "./time-panel";
 import { ToolTipWrapper } from "../tooltip-wrapper/tooltip-wrapper";
