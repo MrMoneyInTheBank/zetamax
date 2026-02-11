@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Trophy, Target, TrendingDown, Trash } from "lucide-react";
 import { UserContext } from "@/contexts/userContext";
-/* import { useQuery } from "convex/react";
-import { api } from "../../../../convex/_generated/api"; */
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
 import { deleteUserScore } from "@/lib/deleteUserScore";
 import { useLocalScores } from "@/hooks/useLocalScores";
 import { handleUserAuthChange } from "@/lib/handleUserAuthChange";
@@ -21,13 +21,12 @@ export default function Analytics() {
   const userId = useContext(UserContext);
   const { localScores, setLocalScores } = useLocalScores();
 
-  /* const scoreQueryResult = useQuery(
+  const scoreQueryResult = useQuery(
     api.getUserScores.getUserScores,
     userId ? { clerkUserId: userId } : "skip",
-  ); */
+  );
 
-  // const userScores = scoreQueryResult?.scores ?? localScores;
-  const userScores = localScores;
+  const userScores = scoreQueryResult?.scores ?? localScores;
 
   useEffect(() => {
     handleUserAuthChange(userId, localScores, setLocalScores);
